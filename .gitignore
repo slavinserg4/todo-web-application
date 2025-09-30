@@ -1,3 +1,5 @@
 .idea
 ./node_modules
 todo-web-application.iml
+/backend/node_modules/
+./mongo_db

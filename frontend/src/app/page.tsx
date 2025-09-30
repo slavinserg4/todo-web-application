@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { api } from "@/utils/api";
 
 export default function Home() {
   const [message, setMessage] = useState('Завантаження...');
@@ -8,7 +9,7 @@ export default function Home() {
   useEffect(() => {
     const fetchHello = async () => {
       try {
-        const response = await fetch('http://localhost:5334/hello');
+        const response = await api.fetch('/hello');
         const data = await response.json();
         setMessage(data.message);
 
