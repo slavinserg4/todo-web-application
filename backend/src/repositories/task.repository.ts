@@ -1,4 +1,5 @@
 import { SortEnum } from "../enums/sort.enum";
+import { TaskStatusEnum } from "../enums/task-status.enum";
 import {
     ICreateTaskDTO,
     ITask,
@@ -17,11 +18,18 @@ class TaskRepository {
                 $options: "i",
             };
         }
-        if (query.done !== undefined) {
-            filter.done = query.done;
+        if (query.status) {
+            switch (query.status) {
+                case TaskStatusEnum.DONE:
+                    filter.done = true;
+                    break;
+                case TaskStatusEnum.UNDONE:
+                    filter.done = false;
+                    break;
+            }
         }
+
         const sortValue = query.sort === SortEnum.DESC ? -1 : 1;
-        console.log("query in repo =", query);
         return Promise.all([
             Task.find(filter).limit(query.pageSize).skip(skip).sort({
                 priority: sortValue,

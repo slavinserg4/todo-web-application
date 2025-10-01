@@ -1,3 +1,5 @@
+import MainLayout from "@/components/MainLayout/MainLayout";
+import "./global.css"
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -5,7 +7,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={'body'}>
+        <MainLayout/>
         {children}
       </body>
     </html>

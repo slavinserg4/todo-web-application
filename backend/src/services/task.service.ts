@@ -79,11 +79,12 @@ class TaskService {
             done: true,
         });
     }
-    public async getTaskById(id: string): Promise<void> {
+    public async getTaskById(id: string): Promise<ITask> {
         const task = await taskRepository.getTaskById(id);
         if (!task) {
             throw new ApiError("Task not found", StatusCodesEnum.NOT_FOUND);
         }
+        return task;
     }
 }
 export const taskService = new TaskService();

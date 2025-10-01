@@ -1,44 +1,25 @@
-'use client';
-import { useState, useEffect } from 'react';
-import { api } from "@/utils/api";
+import Header from '@/components/Header/Header';
+import AddTaskForm from '@/components/AddTaskForm/AddTaskForm';
+import Tasks from "@/components/Tasks/Tasks";
+import './global.css';
 
-export default function Home() {
-  const [message, setMessage] = useState('Завантаження...');
-  const [error, setError] = useState('');
+const HomePage = () => {
+    return (
+        <div className="page-container">
+            <Header />
 
-  useEffect(() => {
-    const fetchHello = async () => {
-      try {
-        const response = await api.fetch('/hello');
-        const data = await response.json();
-        setMessage(data.message);
-
-      } catch (err) {
-        setError('Помилка при з\'єднанні з сервером');
-        console.error('Помилка:', err);
-      }
-    };
-
-    fetchHello().catch();
-  }, []);
-
-  return (
-      <main className="min-h-screen flex flex-col items-center justify-center p-24">
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-lg">
-          <h1 className="text-4xl font-bold mb-4 text-center">
-            Тестова сторінка
-          </h1>
-
-          {error ? (
-              <div className="text-red-500 text-center">
-                {error}
-              </div>
-          ) : (
-              <div className="text-2xl text-center">
-                {message}
-              </div>
-          )}
+            <main className="content-container">
+                <div className="grid-layout">
+                    <div className="form-section">
+                        <AddTaskForm />
+                    </div>
+                    <div className="tasks-section">
+                        <Tasks/>
+                    </div>
+                </div>
+            </main>
         </div>
-      </main>
-  );
-}
+    );
+};
+
+export default HomePage;

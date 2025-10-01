@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { SortEnum } from "../enums/sort.enum";
 import { StatusCodesEnum } from "../enums/status-codes.enum";
+import { TaskStatusEnum } from "../enums/task-status.enum";
 import { ITaskQuery } from "../interfaces/tast.interface";
 import { taskService } from "../services/task.service";
 
@@ -18,15 +19,9 @@ class TaskController {
                           ? SortEnum.ASC
                           : undefined,
                 search: req.query.search?.toString(),
-                done:
-                    req.query.done === "true"
-                        ? true
-                        : req.query.done === "false"
-                          ? false
-                          : undefined,
+                status:
+                    (req.query.status as TaskStatusEnum) || TaskStatusEnum.ALL,
             };
-            console.log("req.query =", req.query);
-
             const tasks = await taskService.getTasks(query);
             res.status(StatusCodesEnum.OK).json(tasks);
         } catch (error) {
@@ -72,6 +67,15 @@ class TaskController {
             const { id } = req.params;
             const updatedTask = await taskService.toggleTaskStatus(id);
             res.status(StatusCodesEnum.OK).json(updatedTask);
+        } catch (error) {
+            next(error);
+        }
+    }
+    public async getTaskById(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params;
+            const task = await taskService.getTaskById(id);
+            res.status(StatusCodesEnum.OK).json(task);
         } catch (error) {
             next(error);
         }

@@ -1,8 +1,4 @@
-import { SortEnum } from "../enums/sort.enum";
-import { TaskStatusEnum } from "../enums/task-status.enum";
-import { IBase } from "./base.interface";
-
-export interface ITask extends IBase {
+export interface ITask {
     _id: string;
     title: string;
     description?: string;
@@ -10,6 +6,8 @@ export interface ITask extends IBase {
     priority: number;
     dueDate?: Date;
     category?: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 export interface ICreateTaskDTO {
     title: string;
@@ -29,7 +27,15 @@ export interface IUpdateTaskDTO {
 export interface ITaskQuery {
     pageSize: number;
     page: number;
-    sort?: SortEnum;
+    sort?: "asc" | "desc";
     search?: string;
-    status?: TaskStatusEnum;
+    status?: "done" | "undone" | "all";
+}
+
+export interface ITaskResponse {
+    data: ITask[];
+    totalItems: number;
+    totalPages: number;
+    prevPage: boolean;
+    nextPage: boolean;
 }

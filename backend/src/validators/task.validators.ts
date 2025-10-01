@@ -1,6 +1,7 @@
 import Joi from "joi";
 
 import { SortEnum } from "../enums/sort.enum";
+import { TaskStatusEnum } from "../enums/task-status.enum";
 
 export class TaskValidator {
     private static datePattern =
@@ -80,6 +81,12 @@ export class TaskValidator {
         search: Joi.string().allow("").max(100).messages({
             "string.max": "Search query cannot exceed {#limit} characters",
         }),
-        done: Joi.boolean().allow(null),
+        status: Joi.string()
+            .valid(
+                TaskStatusEnum.ALL,
+                TaskStatusEnum.DONE,
+                TaskStatusEnum.UNDONE,
+            )
+            .default(TaskStatusEnum.ALL),
     });
 }

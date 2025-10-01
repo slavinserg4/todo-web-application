@@ -11,6 +11,11 @@ router.get(
     commonMiddleware.query(TaskValidator.queryTasks),
     taskController.getTasks.bind(taskController),
 );
+router.get(
+    "/:id",
+    commonMiddleware.isIdValidate("id"),
+    taskController.getTaskById.bind(taskController),
+);
 
 router.post(
     "/",
