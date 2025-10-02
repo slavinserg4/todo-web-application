@@ -34,7 +34,9 @@ services:
     environment:
       - NODE_ENV=development
       - NEXT_PUBLIC_API_URL=http://localhost/api/task
-      - SERVER_API_URL=http://backend:6000/task
+      - SERVER_API_URL=http://nginx/api/task
+
+
     command: npm run dev
   nginx:
     image: nginx:alpine
