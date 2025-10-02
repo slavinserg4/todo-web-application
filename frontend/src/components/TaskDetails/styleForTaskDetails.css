@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+.task-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.back-button {
+    padding: 8px 16px;
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    color: #374151;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    grid-column: 1;
+}
+
+.back-button:hover {
+    background-color: #e5e7eb;
+}
+
+.task-header h2 {
+    grid-column: 2;
+    text-align: center;
+    margin: 0;
+}
+
+.task-details {
+    font-family: 'Roboto', sans-serif;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.task-details h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.task-details-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: baseline;
+}
+
+.label {
+    font-weight: 600;
+    min-width: 120px;
+    color: #666;
+}
+
+.value {
+    color: #333;
+}
+
+.status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.status.completed {
+    background-color: #10b981;
+    color: white;
+}
+
+.status.pending {
+    background-color: #f59e0b;
+    color: white;
+}

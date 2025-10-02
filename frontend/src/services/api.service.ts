@@ -1,6 +1,8 @@
-import { ICreateTaskDTO, ITask, ITaskQuery, ITaskResponse } from "@/models/ITaskModel";
+import { ICreateTaskDTO, ITask, ITaskQuery, ITaskResponse, IUpdateTaskDTO } from "@/models/ITaskModel";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const BASE_URL = typeof window === 'undefined'
+    ? process.env.SERVER_API_URL
+    : process.env.NEXT_PUBLIC_API_URL;
 
 export const getTasks = async (query?: ITaskQuery): Promise<ITaskResponse> => {
     if (!query) {
@@ -32,7 +34,7 @@ export const createTask = async (data: ICreateTaskDTO): Promise<ITaskResponse> =
     return response.json();
 };
 
-export const updateTask = async (data: ICreateTaskDTO, id: string): Promise<ITaskResponse> => {
+export const updateTask = async (data: IUpdateTaskDTO, id: string): Promise<ITaskResponse> => {
     const response = await fetch(`${BASE_URL}/${id}`, {
         method: 'PUT',
         headers: {

@@ -3,7 +3,7 @@ services:
     build:
       context: .
     ports:
-      - "5334:6000"
+      - "6000:6000"
     env_file:
       - .env
     volumes:
@@ -22,25 +22,27 @@ services:
     volumes:
       - ./mongo_db:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-#  frontend:
-#    build:
-#      context: ./frontend
-#      dockerfile: Dockerfile
-#    ports:
-#      - "3000:3000"
-#    volumes:
-#      - ./frontend:/app
-#      - /app/node_modules
-#    environment:
-#      - NODE_ENV=development
-#    command: npm run dev
-#  nginx:
-#    image: nginx:alpine
-#    ports:
-#      - "80:80"
-#    volumes:
-#      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-#    depends_on:
-#      - frontend
-#      - backend
-#
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost/api/task
+      - SERVER_API_URL=http://backend:6000/task
+    command: npm run dev
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend
+      - backend
+

@@ -23,17 +23,15 @@ export async function createTaskAction(formData: FormData) {
 export async function update(formData: FormData, id: string) {
     const taskData = parseTaskData(formData);
     await updateTask(taskData, id);
-    revalidatePath('/');
+    revalidatePath(`/${id}`);
 }
-export async function toggleTaskAction(formData: FormData) {
-    const id = formData.get('taskId') as string;
-    await toggleTaskStatus(id);
+export async function deleteTaskAction(id: string) {
+    await deleteTask(id);
     revalidatePath('/');
 }
 
-export async function deleteTaskAction(formData: FormData) {
-    const id = formData.get('taskId') as string;
-    await deleteTask(id);
+export async function toggleTaskStatusAction(id: string) {
+    await toggleTaskStatus(id);
     revalidatePath('/');
 }
 

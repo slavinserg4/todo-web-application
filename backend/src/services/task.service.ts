@@ -74,9 +74,9 @@ class TaskService {
     }
 
     public async toggleTaskStatus(id: string): Promise<ITask> {
-        await this.getTaskById(id);
+        const task = await this.getTaskById(id);
         return await this.updateTask(id, {
-            done: true,
+            done: !task.done,
         });
     }
     public async getTaskById(id: string): Promise<ITask> {

@@ -1,65 +1,78 @@
-import { ITask } from "@/models/ITaskModel";
-import { FC } from "react";
-import { deleteTaskAction, toggleTaskAction } from "@/server-actions/ServerActions";
-type TaskProps = {
+'use client';
+
+import { ITask } from '@/models/ITaskModel';
+import './styleForTask.css';
+import { deleteTaskAction, toggleTaskStatusAction } from '@/server-actions/ServerActions';
+import Link from 'next/link';
+
+interface TaskProps {
     task: ITask;
 }
 
-const Task: FC<TaskProps> = ({ task }) => {
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        return date.toLocaleString('uk-UA', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
+const Task = ({ task }: TaskProps) => {
+    const formatDate = (date: Date) => {
+        return new Date(date).toLocaleDateString('en-US', {
+            day: 'numeric',
+            month: 'short',
             hour: '2-digit',
             minute: '2-digit'
         });
-    }
+    };
 
+    const handleComplete = async () => {
+        await toggleTaskStatusAction(task._id);
+    };
+
+    const handleDelete = async () => {
+        await deleteTaskAction(task._id);
+    };
 
     return (
-        <div className="border p-4 mb-4 rounded">
-            <form action={toggleTaskAction}>
-                <input type="hidden" name="taskId" value={task._id} />
-                <button type="submit" className="flex items-center gap-2">
-                    <input
-                        type="checkbox"
-                        checked={task.done}
-                        readOnly
-                        className="w-5 h-5"
-                    />
-                    <span className={task.done ? 'line-through text-gray-500' : ''}>
-                        {task.title}
+        <div className={`task-card ${task.done ? 'completed' : ''}`}>
+            <div className="task-header">
+                <div className="task-main-info">
+                    <Link href={`/${task._id}`}>
+                        <h3 className="task-title">{task.title}</h3>
+                    </Link>
+                    <span className="task-priority">
+                        Priority: {task.priority}
                     </span>
-                </button>
-            </form>
+                </div>
+            </div>
 
-            {task.dueDate && (
-                <p className="text-sm text-gray-600 mt-2">
-                    Дедлайн: {formatDate(task.dueDate.toString())}
-                </p>
+            {task.description && (
+                <p className="task-description">{task.description}</p>
             )}
 
-            <div className="flex items-center justify-between mt-2">
-                <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                    Пріоритет: {task.priority}
-                </span>
+            <div className="task-footer">
+                <div className="task-info">
+                    {task.category && (
+                        <span className="task-category">{task.category}</span>
+                    )}
+                    {task.dueDate && (
+                        <span className="task-due-date">
+                            Due: {formatDate(task.dueDate)}
+                        </span>
+                    )}
+                </div>
 
-                <form action={deleteTaskAction}>
-                    <input type="hidden" name="taskId" value={task._id} />
+                <div className="task-actions">
                     <button
-                        type="submit"
-                        className="text-red-500 hover:text-red-700"
+                        className="task-button complete-button"
+                        onClick={handleComplete}
                     >
-                        ❌
+                        {task.done ? 'Undo' : 'Complete'}
                     </button>
-                </form>
+                    <button
+                        className="task-button delete-button"
+                        onClick={handleDelete}
+                    >
+                        Delete
+                    </button>
+                </div>
             </div>
         </div>
     );
-
-
 };
 
 export default Task;
