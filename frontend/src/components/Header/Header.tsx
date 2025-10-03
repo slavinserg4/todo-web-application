@@ -1,10 +1,9 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
 import "./styleForHeader.css";
 
-const HeaderContent = () => {
+const Header = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -74,18 +73,4 @@ const HeaderContent = () => {
     );
 };
 
-export default function Header() {
-    return (
-        <Suspense fallback={
-            <div className="header">
-                <div className="filters">
-                    <div className="search-input loading"></div>
-                    <div className="filter-select loading"></div>
-                    <div className="filter-select loading"></div>
-                </div>
-            </div>
-        }>
-            <HeaderContent />
-        </Suspense>
-    );
-}
+export default Header;
