@@ -46,8 +46,11 @@ A full-stack task management application built with modern technologies, featuri
 
 2. Create the `.env` and `.env.db` files in the root directory using the provided examples or environment variable documentation.
 ```
-PORT=6000
+PORT={your port}
 MONGO_URI=mongodb://user:user@db:27017/todo-db?authSource=admin
+or 
+MONGO_URI=mongodb+srv://user:user@cluster0.vsvnxyt.mongodb.net/
+It is the cloud db without db service in docker-compose.yml
 ```
 3. Navigate to the backend/ folder and install dependencies:
 ```
