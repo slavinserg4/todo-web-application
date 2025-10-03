@@ -28,7 +28,9 @@ const dbConnection = async () => {
     while (!dbCon) {
         try {
             console.log("Connecting to DB...");
-            await mongoose.connect(config.MONGO_URI);
+            await mongoose.connect(
+                "mongodb+srv://user:user@cluster0.vsvnxyt.mongodb.net/",
+            );
             dbCon = true;
             console.log("Database available!!!");
         } catch {

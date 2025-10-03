@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import './styleForPagination.css';
 
 interface PaginationProps {
@@ -10,7 +11,7 @@ interface PaginationProps {
     hasPrevPage: boolean;
 }
 
-const Pagination = ({ currentPage, totalPages, hasNextPage, hasPrevPage }: PaginationProps) => {
+const PaginationContent = ({ currentPage, totalPages, hasNextPage, hasPrevPage }: PaginationProps) => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -22,27 +23,39 @@ const Pagination = ({ currentPage, totalPages, hasNextPage, hasPrevPage }: Pagin
 
     return (
         <div className="pagination">
-        <button
-            className="pagination-button"
-    onClick={() => handlePageChange(currentPage - 1)}
-    disabled={!hasPrevPage}
->
-    Previous
-    </button>
+            <button
+                className="pagination-button"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={!hasPrevPage}
+            >
+                Previous
+            </button>
 
-    <span className="pagination-info">
-        Page {currentPage} of {totalPages}
-    </span>
+            <span className="pagination-info">
+                Page {currentPage} of {totalPages}
+            </span>
 
-    <button
-    className="pagination-button"
-    onClick={() => handlePageChange(currentPage + 1)}
-    disabled={!hasNextPage}
->
-    Next
-    </button>
-    </div>
-);
+            <button
+                className="pagination-button"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={!hasNextPage}
+            >
+                Next
+            </button>
+        </div>
+    );
 };
 
-export default Pagination;
+export default function Pagination(props: PaginationProps) {
+    return (
+        <Suspense fallback={
+            <div className="pagination">
+                <button className="pagination-button" disabled>Previous</button>
+                <span className="pagination-info">Loading...</span>
+                <button className="pagination-button" disabled>Next</button>
+            </div>
+        }>
+            <PaginationContent {...props} />
+        </Suspense>
+    );
+}
